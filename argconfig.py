@@ -10,7 +10,7 @@ class ArgumentConfig:
     def __init__(self, parser: argparse.ArgumentParser):
         self.parser = parser
 
-        self.parser.add_argument('--configargs', '-c',
+        self.parser.add_argument('--config', '-c',
                                  nargs='?',
                                  metavar='FILENAME')
 
@@ -35,7 +35,7 @@ class ArgumentConfig:
 
         # TODO: deal with any config subparser stuff we've added
 
-        config_path = passed_args.get('configargs', None)
+        config_path = passed_args.pop('config', None)
         if config_path:
             with open(config_path, 'r') as config_file:
                 configargs = json.load(config_file)
@@ -47,7 +47,7 @@ class ArgumentConfig:
 
         # remove the config options from options. They're not needed any more
         # and we don't want them serialized
-        options.pop('configargs', None)
+        options.pop('config', None)
         options.pop('write_config', None)
 
         # print the options (to file) if needed
@@ -57,7 +57,7 @@ class ArgumentConfig:
             if config_dst != 'stdout':
                 with open(config_dst, 'w', encoding='utf-8') as config_file:
                     print(json.dumps(options, sort_keys=True, indent=4), file=config_file)
-                    print('Current options saved to ', config_dst)
+                    print('Current options saved to: %r' % config_dst)
             sys.exit(0)
 
         return argparse.Namespace(**options)
