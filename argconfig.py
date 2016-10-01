@@ -1,6 +1,5 @@
 import argparse
 import json
-import os
 import sys
 
 
@@ -21,36 +20,30 @@ class ArgumentConfig:
                                  metavar='FILENAME',
                                  const='stdout')
 
-        # parse an empty list to get the defaults
-        self.defaults = vars(self.parser.parse_args([]))
-
         # TODO: add config subparser here
 
     def parse_args(self, *args, **kwargs):
+
+        # parse an empty list to get the defaults
+        defaults = vars(self.parser.parse_args([]))
 
         passed_args = vars(self.parser.parse_args(*args, **kwargs))
 
         # Only keep the args that aren't the default
         passed_args = {key: value for (key, value) in passed_args.items()
-                       if (key in self.defaults and self.defaults[key] != value)}
+                       if (key in defaults and defaults[key] != value)}
 
         # TODO: deal with any config subparser stuff we've added
 
-        if passed_args.get('configargs', None):
-            config_path = os.path.expanduser(passed_args['configargs'])
+        config_path = passed_args.get('configargs', None)
+        if config_path:
             with open(config_path, 'r') as config_file:
                 configargs = json.load(config_file)
         else:
             configargs = dict()
 
-        # if we need to write the config, get the path
-        if 'write_config' in passed_args:
-            config_dst = passed_args.pop('write_config')
-        else:
-            config_dst = None
-
         # override defaults with config with passed args
-        options = {**self.defaults, **configargs, **passed_args}
+        options = {**defaults, **configargs, **passed_args}
 
         # remove the config options from options. They're not needed any more
         # and we don't want them serialized
@@ -58,11 +51,13 @@ class ArgumentConfig:
         options.pop('write_config', None)
 
         # print the options (to file) if needed
+        config_dst = passed_args.pop('write_config', None)
         if config_dst:
             print(json.dumps(options, sort_keys=True, indent=4))
             if config_dst != 'stdout':
                 with open(config_dst, 'w', encoding='utf-8') as config_file:
                     print(json.dumps(options, sort_keys=True, indent=4), file=config_file)
+                    print('Current options saved to ', config_dst)
             sys.exit(0)
 
         return argparse.Namespace(**options)
