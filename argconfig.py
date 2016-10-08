@@ -20,8 +20,6 @@ class ArgumentConfig:
                                  metavar='FILENAME',
                                  const='stdout')
 
-        # TODO: add config subparser here
-
     def parse_args(self, *args, **kwargs):
 
         # parse an empty list to get the defaults
@@ -32,8 +30,6 @@ class ArgumentConfig:
         # Only keep the args that aren't the default
         passed_args = {key: value for (key, value) in passed_args.items()
                        if (key in defaults and defaults[key] != value)}
-
-        # TODO: deal with any config subparser stuff we've added
 
         config_path = passed_args.pop('config', None)
         if config_path:
