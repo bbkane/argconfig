@@ -68,6 +68,15 @@ Convert between extensions (in this case ``md`` and ``rst``) with ``pandoc -o <n
 
 I'm following the guide at `the python-packaging readthedocs <https://python-packaging.readthedocs.io/en/latest/index.html>`__.
 
+That's pretty much done. Now I'm using the docs at `py.txt <https://docs.pytest.org/en/latest/goodpractices.html#goodpractices>`__ to use py.test with this.
+
+Run
+---
+
+Use ``pip install -e .`` inside a conda env to symlink it to the right place
+
+Use ``python setup.py test`` to run tests.
+
 TODO:
 -----
 
