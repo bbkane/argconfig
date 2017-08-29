@@ -14,7 +14,7 @@ class ArgumentConfig:
                                  nargs='?',
                                  metavar='FILENAME')
 
-        # TODO: put this in subparser
+        # TODO: put this in subparser?
         self.parser.add_argument('--write_config', '-wc',
                                  nargs='?',
                                  metavar='FILENAME',
@@ -59,19 +59,21 @@ class ArgumentConfig:
         return argparse.Namespace(**options)
 
 
-parser = argparse.ArgumentParser(description='Process some integers.')
-parser.add_argument('--integers', metavar='N', type=int, nargs='+',
-                    default=[1, 2, 3],
-                    help='an integer for the accumulator')
-parser.add_argument('--sum', dest='accumulate', action='store_const',
-                    const='sum', default='max',
-                    help='sum the integers (default: find the max)')
+# TODO: replace this with pytest
+def test():
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('--integers', metavar='N', type=int, nargs='+',
+                        default=[1, 2, 3],
+                        help='an integer for the accumulator')
+    parser.add_argument('--sum', dest='accumulate', action='store_const',
+                        const='sum', default='max',
+                        help='sum the integers (default: find the max)')
 
-options = ArgumentConfig(parser)
+    options = ArgumentConfig(parser)
 
-o = options.parse_args()
+    o = options.parse_args()
 
-print(o)
+    print(o)
 
 # defaults = parser.parse_args([])
 # print(defaults)
