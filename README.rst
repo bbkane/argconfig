@@ -68,14 +68,20 @@ Convert between extensions (in this case ``md`` and ``rst``) with ``pandoc -o <n
 
 I'm following the guide at `the python-packaging readthedocs <https://python-packaging.readthedocs.io/en/latest/index.html>`__.
 
-That's pretty much done. Now I'm using the docs at `py.txt <https://docs.pytest.org/en/latest/goodpractices.html#goodpractices>`__ to use py.test with this.
+That's pretty much done. Now I'm using the docs at `pytest <https://docs.pytest.org/en/latest/goodpractices.html#goodpractices>`__ to use py.test with this.
 
-Run
----
+Install and Run
+---------------
 
-Use ``pip install -e .`` inside a conda env to symlink it to the right place
+.. code:: bash
 
-Use ``python setup.py test`` to run tests.
+    cd ~/Git/
+    git clone https://github.com/bbkane/argconfig.git
+    cd argconfig
+    conda create --name argconfig python=3
+    source activate argconfig
+    pip install -e .
+    python setup.py test
 
 TODO:
 -----
