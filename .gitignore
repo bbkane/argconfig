@@ -11,3 +11,6 @@ __pycache__/
 
 # cached eggs
 /.eggs
+
+# some cache?
+.cache

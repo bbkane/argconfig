@@ -1,6 +1,9 @@
 argconfig
 =========
 
+*Not Ready For Usage Yet*
+-------------------------
+
 This module wraps ``argparse.ArgumentParser`` so arguments passed to it
 can be overwritten in the following order:
 
@@ -88,3 +91,8 @@ TODO:
 
 -  multiple config backends (not just JSON)
 -  comments in the JSON
+
+TODO: Config Architecture
+---
+
+- Use a signature like ``ac = ArgumentConfig(parser, [ScriptDefaults(), JSONConfig(path='blah')])``
