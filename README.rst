@@ -99,3 +99,4 @@ TODO:
 - change write_config to output other things than JSON
 - implement --list-overrides
 - put library commands in subparser?
+- instead of differentiating between a file path and a passed config, in a config parser, just set a ``passed`` arg
