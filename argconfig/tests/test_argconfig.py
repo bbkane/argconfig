@@ -1,5 +1,5 @@
 import argparse
-import argconfig
+import argconfig as ac
 import json
 
 import pytest
@@ -35,7 +35,10 @@ def build_parser():
 def test_argconfig_overwrite_all_with_args(json_config_file):
     parser = build_parser()
 
-    options = argconfig.ArgumentConfig(parser)
+    options = ac.ArgumentConfig(parser,
+                                [ac.ScriptDefaults(),
+                                 ac.PassedJSONConfigArgs(),
+                                 ac.PassedArgs()])
 
     parsed_args = options.parse_args(['--arg_default', 'overwritten_by_arg',
                                       '--script_default', 'overwritten_by_arg',
@@ -55,7 +58,10 @@ def test_argconfig(json_config_file):
 
     parser = build_parser()
 
-    options = argconfig.ArgumentConfig(parser)
+    options = ac.ArgumentConfig(parser,
+                                [ac.ScriptDefaults(),
+                                 ac.PassedJSONConfigArgs(),
+                                 ac.PassedArgs()])
 
     parsed_args = options.parse_args(['--arg_default', 'overwritten_by_arg',
                                       '--config', str(json_config_file)])

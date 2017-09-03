@@ -73,8 +73,8 @@ I'm following the guide at `the python-packaging readthedocs <https://python-pac
 
 That's pretty much done. Now I'm using the docs at `pytest <https://docs.pytest.org/en/latest/goodpractices.html#goodpractices>`__ to use py.test with this.
 
-Install and Run
----------------
+Install and Test
+----------------
 
 .. code:: bash
 
@@ -85,6 +85,8 @@ Install and Run
     source activate argconfig
     pip install -e .
     python setup.py test
+    # run with pdb for debugging
+    python setup.py test --addopts --pdb
 
 TODO:
 -----

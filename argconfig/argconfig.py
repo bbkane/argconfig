@@ -1,9 +1,9 @@
 import argparse
 import json
 import sys
+from typing import List
 
-
-class Parser:
+class InfoSource:
 
     # This is just to pass the parser into the class
     # without having to do it in the __init__ method,
@@ -14,7 +14,7 @@ class Parser:
         self.parsed_passed_args = parsed_passed_args
 
 
-class ScriptDefaults(Parser):
+class ScriptDefaults(InfoSource):
 
     # this needs to return a dict of options
     def parse_args(self, *args, **kwargs):
@@ -22,7 +22,7 @@ class ScriptDefaults(Parser):
         return vars(self.parser.parse_args([]))
 
 
-class PassedArgs(Parser):
+class PassedArgs(InfoSource):
 
     def parse_args(self, *args, **kwargs):
 
@@ -40,7 +40,7 @@ class PassedArgs(Parser):
 
 
 # TODO: is this a confusing name?
-class PassedJSONConfigArgs(Parser):
+class PassedJSONConfigArgs(InfoSource):
 
     def parse_args(self, *args, **kwargs):
 
@@ -57,7 +57,8 @@ class PassedJSONConfigArgs(Parser):
 # add a --config option that overwrites the defaults
 # and is overwritten by the passed in arguments
 class ArgumentConfig:
-    def __init__(self, parser: argparse.ArgumentParser):
+    def __init__(self, parser: argparse.ArgumentParser,
+                 info_sources: List[InfoSource]):
         self.parser = parser
 
         # TODO: don't hardcode
