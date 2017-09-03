@@ -80,14 +80,25 @@ class ArgumentConfig:
         parsed_passed_args = vars(self.parser.parse_args(*args, *kwargs))
 
         options = {}
+        overrides = []
         for info_source in self.info_sources:
             info_source.set_info(self.parser, parsed_passed_args)
-            options.update(info_source.parse_args())
+            info_source_args = info_source.parse_args()
+            overrides.append(info_source_args)
+            options.update(info_source_args)
 
         # remove the config options from options. They're not needed any more
         # and we don't want them serialized
         options.pop('config', None)
         options.pop('write_config', None)
+        options.pop('list_overrides')
+
+        # list all the overrides if necessary
+        if parsed_passed_args['list_overrides']:
+            import pprint
+            for override in overrides:
+                pprint.pprint(override)
+            sys.exit(0)
 
         # print the options (to file) if needed
         config_dst = parsed_passed_args.pop('write_config', None)
