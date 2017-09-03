@@ -87,14 +87,15 @@ Install and Test
     python setup.py test
     # run with pdb for debugging
     python setup.py test --addopts --pdb
+    # run tests on save (requires entr)
+    git ls-files | entr python setup.py test
 
 TODO:
 -----
 
--  multiple config backends (not just JSON)
--  comments in the JSON
-
-TODO: Config Architecture
----
-
-- Use a signature like ``ac = ArgumentConfig(parser, [ScriptDefaults(), JSONConfig(path='blah')])``
+- multiple config backends (not just JSON)
+- comments in the JSON
+- write parsers in other things than JSON
+- change write_config to output other things than JSON
+- implement --list-overrides
+- put library commands in subparser?

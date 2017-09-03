@@ -3,6 +3,7 @@ import json
 import sys
 from typing import List
 
+
 class InfoSource:
 
     # This is just to pass the parser into the class
@@ -26,9 +27,6 @@ class PassedArgs(InfoSource):
 
     def parse_args(self, *args, **kwargs):
 
-        # TODO: is there a cleaner way of doing this?
-        # I'm parsing the arguments to just to get the changed
-        # ones
         defaults = vars(self.parser.parse_args([]))
 
         # Only keep the args that aren't the default
@@ -39,8 +37,7 @@ class PassedArgs(InfoSource):
         return passed_args
 
 
-# TODO: is this a confusing name?
-class PassedJSONConfigArgs(InfoSource):
+class PassedJSONConfig(InfoSource):
 
     def parse_args(self, *args, **kwargs):
 
@@ -61,18 +58,21 @@ class ArgumentConfig:
                  info_sources: List[InfoSource]):
         self.parser = parser
 
-        # TODO: don't hardcode
-        self.parsers = [ScriptDefaults(), PassedJSONConfigArgs(), PassedArgs()]
+        self.info_sources = info_sources
 
         self.parser.add_argument('--config', '-c',
                                  nargs='?',
                                  metavar='FILENAME')
 
-        # TODO: put this in subparser?
         self.parser.add_argument('--write_config', '-wc',
                                  nargs='?',
                                  metavar='FILENAME',
                                  const='stdout')
+
+        self.parser.add_argument('--list_overrides',
+                                 action='store_true',
+                                 help='List all options from all parsers'
+                                      '. Later options override previous ones')
 
     def parse_args(self, *args, **kwargs):
 
@@ -80,9 +80,9 @@ class ArgumentConfig:
         parsed_passed_args = vars(self.parser.parse_args(*args, *kwargs))
 
         options = {}
-        for parser in self.parsers:
-            parser.set_info(self.parser, parsed_passed_args)
-            options.update(parser.parse_args())
+        for info_source in self.info_sources:
+            info_source.set_info(self.parser, parsed_passed_args)
+            options.update(info_source.parse_args())
 
         # remove the config options from options. They're not needed any more
         # and we don't want them serialized
