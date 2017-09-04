@@ -94,11 +94,15 @@ TODO:
 -----
 
 - config backends:
+
   - configobj
   - env
   - pyyaml (requires an optional dependency)
+  - api?
+
 - comments in the JSON
 - write parsers in other things than JSON
 - change write_config to output other things than JSON
 - make --list-overrides not look so ugly (add things to specify what is overriding what)
+- add docs
 - put library commands in subparser?
