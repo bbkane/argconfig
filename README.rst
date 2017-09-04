@@ -93,10 +93,12 @@ Install and Test
 TODO:
 -----
 
-- multiple config backends (not just JSON)
+- config backends:
+  - configobj
+  - env
+  - pyyaml (requires an optional dependency)
 - comments in the JSON
 - write parsers in other things than JSON
 - change write_config to output other things than JSON
-- implement --list-overrides
+- make --list-overrides not look so ugly (add things to specify what is overriding what)
 - put library commands in subparser?
-- instead of differentiating between a file path and a passed config, in a config parser, just set a ``passed`` arg
