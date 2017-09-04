@@ -69,9 +69,14 @@ I'm using reStructuredText instead of Markdown so I can upload this as the PyPy 
 
 Convert between extensions (in this case ``md`` and ``rst``) with ``pandoc -o <name>.rst <name.md``
 
-I'm following the guide at `the python-packaging readthedocs <https://python-packaging.readthedocs.io/en/latest/index.html>`__.
+I'm following the guide at `the python-packaging readthedocs
+<https://python-packaging.readthedocs.io/en/latest/index.html>`__.
 
 That's pretty much done. Now I'm using the docs at `pytest <https://docs.pytest.org/en/latest/goodpractices.html#goodpractices>`__ to use py.test with this.
+
+I'm now also looking at `Python's packaging guide
+<https://packaging.python.org/tutorials/distributing-packages/#choosing-a-versioning-scheme>`__,
+especially in regards to wheels.
 
 Install and Test
 ----------------

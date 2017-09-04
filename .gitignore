@@ -17,3 +17,6 @@ __pycache__/
 
 # so I can create random files
 tmp*
+
+# Wheel distribution folder
+/build/
