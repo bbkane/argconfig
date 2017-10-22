@@ -31,7 +31,11 @@ TODO: add actual config stuff here...
                         const='sum', default='max',
                         help='sum the integers (default: find the max)')
 
-    options = ArgumentConfig(parser)
+                        options = ArgumentConfig(parser, [
+                            ScriptDefaults(),
+                            PassedJSONConfig(),
+                            PassedArgs(),
+                        ])
 
     o = options.parse_args()
 
@@ -78,6 +82,24 @@ I'm now also looking at `Python's packaging guide
 <https://packaging.python.org/tutorials/distributing-packages/#choosing-a-versioning-scheme>`__,
 especially in regards to wheels.
 
+Docs
+----
+
+I'm using `this tutorial
+<https://samnicholls.net/2016/06/15/how-to-sphinx-readthedocs/>`__ to help with
+documentation.
+
+Things I've done so far:
+
+.. code:: bash
+
+    mkdir docs/
+    cd docs/
+    sphinx-quickstart
+    sphinx-autodoc
+
+That seems to be mostly working? I still need to work on this a bit.
+
 Install and Test
 ----------------
 
@@ -92,7 +114,7 @@ Install and Test
     python setup.py test
     # run with pdb for debugging
     python setup.py test --addopts --pdb
-    # run tests on save (requires entr)
+    # run tests on save (requires entr; needs re-run when new file created)
     git ls-files | entr python setup.py test
 
 TODO:

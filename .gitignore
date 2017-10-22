@@ -20,3 +20,7 @@ tmp*
 
 # Wheel distribution folder
 /build/
+
+/.vscode/
+
+/docs/_build/
