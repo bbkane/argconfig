@@ -120,9 +120,14 @@ Install and Test
 TODO:
 -----
 
+- Standardize tests:
+
+  - Verify that all parsers work to return dicts
+  - verify that argconfig returns those dicts combined
+
 - config backends:
 
-  - configobj
+  - configparser -done except tests!
   - env
   - pyyaml (requires an optional dependency)
   - api?

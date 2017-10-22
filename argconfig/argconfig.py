@@ -1,4 +1,5 @@
 import argparse
+import configparser
 import json
 import sys
 from typing import List, Dict
@@ -6,11 +7,14 @@ from typing import List, Dict
 
 class InfoSource:
 
-    # This is just to pass the parser into the class
-    # without having to do it in the __init__ method,
-    # so people who make this class don't have to pass
-    # the parser every time
     def set_info(self, parser, parsed_passed_args, parsed_default_args, config_path):
+        """ Give the InfoSource information from the parser
+
+        This is just to pass the parser into the class
+        without having to do it in the __init__ method,
+        so people who instantiate this class don't have to pass
+        the parser every time"""
+
         self.parser = parser
         self.parsed_passed_args = parsed_passed_args
         self.parsed_default_args = parsed_default_args
@@ -18,12 +22,12 @@ class InfoSource:
         self.config_path = config_path
 
     def parse_args(self) -> Dict:
+        """Must be implemented by all final sub classes"""
         pass
 
 
 class ScriptDefaults(InfoSource):
 
-    # this needs to return a dict of options
     def parse_args(self, *args, **kwargs):
         # parse an empty list to get the defaults
         return self.parsed_default_args
@@ -41,6 +45,7 @@ class PassedArgs(InfoSource):
                        if (key in defaults and defaults[key] != value)}
 
         return passed_args
+
 
 # Notes on config specialization:
 # How I'm doing this now is:
@@ -74,6 +79,44 @@ class JSONConfig(JSONSource):
 
 
 class PassedJSONConfig(JSONSource):
+
+    def parse_args(self):
+        return self._parse_args(self.config_path)
+
+
+class ConfigParserSource(InfoSource):
+    """Parse ConfigParser style configs
+
+    dicts aren't powerful enough to fully capture
+    configparser style configs, so just parse the keys/values
+    from a default section ("CONFIG" by default)
+
+    Note that everythign that comes out of this is a string
+    """
+
+    def __init__(self, default_section='CONFIG'):
+        self.default_section = default_section
+
+    def _parse_args(self, path):
+        config = configparser.ConfigParser()
+        config.read(path)
+        return dict(config[self.default_section].items())
+
+
+class ConfigParserConfig(ConfigParserSource):
+
+    def __init__(self, path, default_section='CONFIG'):
+        super().__init__(default_section)
+        self.path = path
+
+    def parse_args(self):
+        return self._parse_args(self.path)
+
+
+class PassedConfigParser(ConfigParserSource):
+
+    def __init__(self, default_section='CONFIG'):
+        super().__init__(default_section)
 
     def parse_args(self):
         return self._parse_args(self.config_path)
